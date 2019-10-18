@@ -33,8 +33,11 @@ module.exports = {
   ],
 
   devServer: {
-    contentBase: path.join(__dirname, 'build'),
-    compress: true,
-    port: 9000
-  }
+    // contentBase: path.join(__dirname, 'build'),
+    // compress: true,
+    // port: 9000
+    host: 'localhost',
+    port: 9000,
+    open: true,
+  },
 };
