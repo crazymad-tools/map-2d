@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 
 
@@ -25,19 +26,23 @@ module.exports = {
     ],
   },
   plugins: [
-    // new CleanWebpackPlugin(),
-    // new HtmlWebpackPlugin({
-    //   title: 'Development'
-    // }),
-    new webpack.HotModuleReplacementPlugin()
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+        title: 'CMap',
+        inject: true,
+        template: path.resolve(__dirname, 'index.html')
+    }),
+    new CopyPlugin([{
+        from: './*.html'
+    }])
   ],
 
-  devServer: {
-    // contentBase: path.join(__dirname, 'build'),
-    // compress: true,
-    // port: 9000
-    host: 'localhost',
-    port: 9000,
-    open: true,
-  },
+  // devServer: {
+  //   // contentBase: path.join(__dirname, 'build'),
+  //   // compress: true,
+  //   // port: 9000
+  //   host: 'localhost',
+  //   port: 9000,
+  //   open: true,
+  // },
 };

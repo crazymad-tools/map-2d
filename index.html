@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title><%= htmlWebpackPlugin.options.title %></title>
-</head>
-<body>
-  <div id="cmap"></div>
-  <script src="build/main.js"></script>
+  <head>
+    <meta charset="utf-8" />
+    <!-- <title><%= htmlWebpackPlugin.options.title %></title> -->
+    <title>CMap</title>
+  </head>
+  <body>
+    <div id="cmap"></div>
+    <!-- <script src="build/main.js"></script> -->
+  </body>
   <script>
-    let map = new CMap('cmap');
+    let map = new CMap("cmap");
+    console.log(map);
   </script>
-</body>
 </html>
