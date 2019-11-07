@@ -4,13 +4,30 @@
     <meta charset="utf-8" />
     <!-- <title><%= htmlWebpackPlugin.options.title %></title> -->
     <title>CMap</title>
+    <!-- <link href="src/index.scss" /> -->
+    <!-- <link href="src/index.css" rel="stylesheet" /> -->
+    <style>
+      body, html {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      #cmap {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
   </head>
   <body>
     <div id="cmap"></div>
+    <img id="test" />
     <!-- <script src="build/main.js"></script> -->
   </body>
   <script>
-    let map = new CMap("cmap");
-    console.log(map);
+    let map = new CMap("cmap", {
+      mapLoader: new CMap.GoogleMapLoader()
+    });
   </script>
 </html>
