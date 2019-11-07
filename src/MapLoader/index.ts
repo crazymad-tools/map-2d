@@ -1,5 +1,6 @@
-// import HttpRequest from '../utils/HttpRequest';
-
+/**
+ * 地图加载器
+ */
 export class MapLoader {
   private _url: string;
 
@@ -29,6 +30,9 @@ export class MapLoader {
   }
 }
 
+/**
+ * 地图加载器（google map 图源
+ */
 export class GoogleMapLoader extends MapLoader {
   constructor() {
     super('http://mt1.google.cn/vt/lyrs=s&hl=zh-CN&x={x}&y={y}&z={z}&s=Gali');

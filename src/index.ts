@@ -1,32 +1,44 @@
-import MapLoader, {GoogleMapLoader} from "./MapLoader";
+import MapLoader, { GoogleMapLoader } from './MapLoader';
+import Camera from './Camera';
+import Renderer from './Renderer';
+import Controller from './Controller';
 
 interface CMapOptions {
-  mapLoader: MapLoader;
+  mapLoader?: MapLoader;
 }
 
 class CMap {
   static MapLoader: any = MapLoader;
   static GoogleMapLoader: any = GoogleMapLoader;
+  static Camera: any = Camera;
 
   /*********************************************/
 
   private _mapLoader: MapLoader;
 
-  constructor (id: string, options: any) {
-    let container = document.getElementById(id);
+  private _renderer: Renderer;
+
+  private _container: any;
+
+  private _controller: Controller;
+
+  public camera: Camera;
+  
+  constructor(id: string, options: CMapOptions) {
+    this._container = document.getElementById(id);
     let canvas = document.createElement('canvas');
-    container.appendChild(canvas);
+    this._container.appendChild(canvas);
     canvas.classList.add('cmap-canvas');
+    // 初始化地图加载器
+    this._mapLoader = options.mapLoader && new GoogleMapLoader();
+    // 初始化摄像机
+    this.camera = new Camera();
+    // 初始化控制器
+    this._controller = new Controller(this.camera, this._container);
+    // 初始化渲染器
+    this._renderer = new Renderer(this.camera, this._mapLoader);
 
-    this._mapLoader = options.mapLoader;
-    this._mapLoader.getTile(0, 0, 0).then((img: any) => {
-      // let dom: any = document.getElementById('test');
-      // console.log(img.length);
-      // console.log(img);
-      // dom.src = img;
-      document.body.append(img);
-    });
-
+    this._renderer.update();
   }
 }
 
