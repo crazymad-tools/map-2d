@@ -1,6 +1,11 @@
+import { Vec3 } from "@/Widgets/Coordinates";
+
 /**
  * 地图加载器
  */
+
+const TILE_HASH: any = []
+
 export class MapLoader {
   private _url: string;
 
@@ -15,7 +20,25 @@ export class MapLoader {
    * @param z 瓦片层级
    */
   async getTile(x: number, y: number, z: number): Promise<string> {
+    if (x < 0 || y < 0) return null;
+
+
     return new Promise((resolve: Function, reject: Function) => {
+      if (TILE_HASH[x * y * z]) {
+        // TILE_HASH[x * y * z].forEach((tile: Vec3) => {
+        //   if (tile.x === x && tile.y === y && tile.z === z) 
+        //   return
+        // });
+        for (let tile of TILE_HASH[x * y * z]) {
+          if (tile.x === x && tile.y === y && tile.z === z) {
+            resolve(tile.img);
+            tile.img.onload = () => {
+              resolve(tile.img);
+            }
+            return;
+          }
+        }
+      }
 
       let url: string = this._url;
       url = url.replace('{x}', `${x}`);
@@ -23,6 +46,22 @@ export class MapLoader {
       url = url.replace('{z}', `${z}`);
       let img = document.createElement('img');
       img.src = url;
+
+      if (!TILE_HASH[x * y * z]) {
+        TILE_HASH[x * y * z] = [];
+      }
+
+      let replaceed = false;
+      for (let tile of TILE_HASH[x * y * z]) {
+        if (tile.x === x && tile.y === y && tile.z === z) {
+          tile.img = img;
+          replaceed = true;
+        }
+      }
+      !replaceed && TILE_HASH[x * y * z].push({
+        x: x, y: y, z: z, img: img
+      });
+
       img.onload = () => {
         resolve(img);
       }

@@ -26,7 +26,10 @@ class CMap {
   
   constructor(id: string, options: CMapOptions) {
     this._container = document.getElementById(id);
+    this._container.classList.add('cmap-container');
     let canvas = document.createElement('canvas');
+    canvas.width = 800;
+    canvas.height = 800;
     this._container.appendChild(canvas);
     canvas.classList.add('cmap-canvas');
     // 初始化地图加载器
@@ -36,7 +39,7 @@ class CMap {
     // 初始化控制器
     this._controller = new Controller(this.camera, this._container);
     // 初始化渲染器
-    this._renderer = new Renderer(this.camera, this._mapLoader);
+    this._renderer = new Renderer(canvas, this.camera, this._mapLoader);
 
     this._renderer.update();
   }

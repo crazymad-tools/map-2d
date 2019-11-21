@@ -35,20 +35,26 @@ export class Controller {
   bindMouseDragEvent() {
     let movecb = window.onmousemove;
     let upcb = window.onmouseup;
-    let last: Vec2 = new Vec2(0, 0);
+    let last: Vec2 = null;
     this._container.onmousedown = (e: any) => {
       window.onmousemove = (e: any) => {
         let event: any = window.event;
         if (!event.screenX || !event.screenY) return;
 
-        let offset: Vec2 = new Vec2(event.screenX - last.x, event.screenY - last.y);
-        last.x = event.screenX;
-        last.y = event.screenY;
-        console.log(offset);
+        let offset: Vec2 = new Vec2(0, 0);
+        if (last) {
+          offset = new Vec2(last.x - event.screenX, event.screenY - last.y);
+          last.x = event.screenX;
+          last.y = event.screenY;
+        } else {
+          last = new Vec2(event.screenX, event.screenY);
+        }
+        this._camera.move(offset);
       }
       window.onmouseup = (e: any) => {
         window.onmousemove = movecb;
         window.onmouseup = upcb;
+        last = null;
       }
     }
   }
